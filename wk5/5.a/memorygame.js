@@ -25,7 +25,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     background(0);
     let selectedFaces = [];
-    for (let z = 0; z < 5; z++) {
+    for (let z = 0; z < 3; z++) {
         const randomIdx = floor(random(cardFaceArray.length));
         const face = cardFaceArray[randomIdx];
         selectedFaces.push(face);
@@ -35,7 +35,7 @@ function setup() {
     }
     selectedFaces = shuffleArray(selectedFaces);
     for (let j = 0; j < 2; j++) {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 3; i++) {
             const faceImage = selectedFaces.pop();
             cards.push(new Card(startingX, startingY, faceImage));
             startingX += 120;
@@ -45,8 +45,8 @@ function setup() {
     }
 }
 
-function draw ()
-    background(0); {
+function draw() {
+    background(0); 
     if (gameState.numMatched === gameState.totalPairs) {
         fill('yellow');
         textsize(66);
@@ -54,10 +54,10 @@ function draw ()
         noLoop();
     }
     for (let k = 0; k < cards.length; k++) {
-        if(!card[k].isMatch) {
+        if(!cards[k].isMatch) {
             cards[k].face = DOWN;
         }
-        card[k].show();
+        cards[k].show();
     }
     noLoop();
     gameState.flippedCards.length = 0;
@@ -78,7 +78,7 @@ function mousePressed() {
         if (gameState.flippedCards.length < 2 && cards[k].didHit(mouseX, mouseY)) 
         {
            console.log('flipped', cards[k]);
-           gameState.flippedCards.push(card[k]);
+           gameState.flippedCards.push(cards[k]);
         }
     }
     if (gameState.flippedCards.length === 2) {
@@ -120,10 +120,13 @@ class Card {
             fill('#aaa');
             rect(this.x, this.y, this.width, this.height, 10);
             image(this.cardFaceImg, this.x + 4, this.y + 15);
+            this.cardFaceImg.resize(60, 80)
+
         } else {
             fill('rgb(57.7%, 9.9%, 9.9%)');
             rect(this.x, this.y, this.width, this.height, 10);
             image(cardback, this.x + 10, this.y + 20);
+            cardback.resize(60,80)
         }
     }
     didHit (mouseX, mouseY) {
